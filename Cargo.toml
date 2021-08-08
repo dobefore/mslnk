@@ -1,0 +1,14 @@
+[package]
+name = "mslnk"
+version = "0.1.0"
+edition = "2018"
+documentation = "https://docs.rs/mslnk/"
+readme = "README.md"
+license="MIT"
+description="create windows shortcuts (lnk files)"
+keywords = ["windows","lnk","shortcut"]
+repository = "https://github.com/dobefore/mslnk.git"
+
+[dependencies]
+bitflags = "1.2.1"
+byteorder = "1.3.4"
