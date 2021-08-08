@@ -1,7 +1,7 @@
 use std::{
+    os::windows::ffi::OsStrExt,
     ffi::{ OsString},
     mem::{size_of},
-    os::windows::prelude::OsStrExt,
     path::Path,
 };
 
@@ -198,14 +198,7 @@ impl Into<Vec<u8>> for LinkTargetIdList {
         data
     }
 }
-#[test]
-fn test_into() {
-    let mut lk = LinkTargetIdList::default();
-    let item = ItemID::from([4, 0, 1, 2].to_vec().as_slice());
-    lk.id_list.push(item);
-    lk.size = 6u16;
-    let l: Vec<u8> = lk.into();
-}
+
 /// only support version 8,10
 #[derive(Debug, Default)]
 struct ExtensionBlock {

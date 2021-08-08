@@ -1,4 +1,3 @@
-#![warn(missing_docs)]
 //! # Shell Link writer for Rust.
 //! Works on Windows,currently support Windows 8,10.
 //! 
