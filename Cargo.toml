@@ -8,6 +8,9 @@ license="MIT"
 description="create windows shortcuts (lnk files)"
 keywords = ["windows","lnk","shortcut"]
 repository = "https://github.com/dobefore/mslnk.git"
+# doc build conf
+[package.metadata.docs.rs]
+default-target = "x86_64-pc-windows-msvc"
 
 [dependencies]
 bitflags = "1.2.1"
