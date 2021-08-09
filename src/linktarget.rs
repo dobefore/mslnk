@@ -81,7 +81,7 @@ impl LinkTargetIdList {
             let file_len = file_name.len();
             // extension block
             let mut ex_block = ExtensionBlock::default();
-            ex_block.version = 0x0900;
+            ex_block.version = 0x0800;
             ex_block.signature = 0x0400EFBE;
             ex_block.ctime = 0;
             ex_block.atime = 0;

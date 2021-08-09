@@ -1,14 +1,16 @@
 # mslnk
-Rust implementation to create Windows shortcut (ms shell .lnk),currently support
-WIndows 8,10. Windows 7 may fail.
+Rust implementation to create Windows shortcut (ms shell .lnk),theoretically support
+WIndows 7,8,10. Tested on Windows 10.
 # Usage
 Add this to your `Cargo.toml`:
 ```toml
 [dependencies]
-mslnk = "0.1.3"
+mslnk = "0.1.4"
 ```
 examole to create lnk
 ```
+use lnk::ShellLink;
+
 let target = r"C:\Users\Admin\Desktop\qq aa\qiuqiu.exe";
 let lnk = r"C:\Users\Admin\Desktop\qq.lnk";
 let sl = ShellLink::new(target).unwrap();
