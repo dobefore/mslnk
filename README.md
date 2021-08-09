@@ -1,10 +1,11 @@
 # mslnk
-Rust implementation to create Windows shortcut (ms shell .lnk)
+Rust implementation to create Windows shortcut (ms shell .lnk),currently support
+WIndows 8,10. Windows 7 may fail.
 # Usage
 Add this to your `Cargo.toml`:
 ```toml
 [dependencies]
-rlnk = "0.1.0"
+mslnk = "0.1.3"
 ```
 examole to create lnk
 ```
