@@ -1,5 +1,5 @@
 //! # Shell Link writer for Rust.
-//! Works on Windows,currently support Windows 8,10.
+//! Works on Windows,theoretically support Windows 7,8,10.
 //! 
 //! ## Example
 //! A simple example appears as follows:
@@ -12,8 +12,11 @@
 //! sl.create_lnk(lnk).unwrap();
 //! ```
 
+use core::prelude;
+use std::ffi::OsString;
 use std::fs::File;
 use std::io::{prelude::*,  BufWriter};
+use std::os::windows::prelude::OsStrExt;
 use std::path::Path;
 
 mod header;
@@ -246,3 +249,13 @@ let working_dir_path=target.as_ref().parent().unwrap().to_str().unwrap().to_owne
     }
 }
 
+
+#[test]
+fn test_uni() {
+    let c=",";
+    let s=OsString::from(",").encode_wide().collect::<Vec<_>>();
+  println!("{:02x}{:02x}",s[0].to_le_bytes()[0],s[0].to_le_bytes()[1]);
+    for i in  c.as_bytes(){
+       println!("{:02x}",i);
+   }
+}

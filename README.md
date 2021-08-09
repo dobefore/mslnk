@@ -5,7 +5,7 @@ WIndows 7,8,10. Tested on Windows 10.
 Add this to your `Cargo.toml`:
 ```toml
 [dependencies]
-mslnk = "0.1.4"
+mslnk = "0.1.5"
 ```
 examole to create lnk
 ```
@@ -16,7 +16,7 @@ let lnk = r"C:\Users\Admin\Desktop\qq.lnk";
 let sl = ShellLink::new(target).unwrap();
 sl.create_lnk(lnk).unwrap();
 ```
-entirely written in rust,no external command.
+entirely written in rust,no external command,support unicode string ,such as Chinese characters.
 Ispired by[lnk-rs for parsing and writing lnk file](https://github.com/lilopkins/lnk-rs).
 microsoft shell lnk doc click here [ms-shllink](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-shllink/16cb4ca1-9339-4d0c-a68d-bf1d6cc0f943)
 - more details on linktarget struct [ITEMIDLIST](https://github.com/libyal/libfwsi/blob/main/documentation/Windows%20Shell%20Item%20format.asciidoc)

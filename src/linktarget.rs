@@ -1,16 +1,11 @@
-use std::{
-    os::windows::ffi::OsStrExt,
-    ffi::{ OsString},
-    mem::{size_of},
-    path::Path,
-};
-
+use std::{ffi::{ OsString}, mem::{size_of}, os::windows::ffi::OsStrExt, path::Path, ptr::null_mut};
 use byteorder::{ByteOrder, LE};
 /// computer item id (this pc on win10)
 const ROOT_FOLDER_SHELL: [u8; 20] = [
     0x14, 0x00, 0x1F, 0x50, 0xE0, 0x4F, 0xD0, 0x20, 0xEA, 0x3A, 0x69, 0x10, 0xA2, 0xD8, 0x08, 0x00,
     0x2B, 0x30, 0x30, 0x9D,
 ];
+
 /// The LinkTargetIDList structure specifies the target of the link. The presence of this optional
 /// structure is specified by the HasLinkTargetIDList bit (LinkFlagssection 2.1.1) in the
 /// ShellLinkHeader(section2.1).
@@ -67,17 +62,44 @@ impl LinkTargetIdList {
         while c < num_filesystemobjects {
             let long_item = long_pathparts.get(c).unwrap().to_owned();
             let (fattr, class_type_indicator) = if c + 1 < num_filesystemobjects {
-                //    is_dir
-                (0x1000u16, 0x31)
+                //   0x01 is_dir  
+              if long_item.is_ascii() {
+                (0x1000u16, 0x31) 
+              }else {
+                // 0x01 is_dir and 0x04 has unicode string
+                (0x1000u16, 0x35)
+              }
+                
             } else {
-                // is_file
-                (0x2000, 0x32u8)
+                if long_item.is_ascii(){
+// is_file
+(0x2000, 0x32u8)
+                }else {
+                    // is_file and has unicode
+                (0x2000, 0x36u8)
+                }
+                
             };
             let file_size = 0x00000000u32;
             let mtime = 0x0u32;
-            // let mut itemid_data_except_size_field=[];
-            let mut file_name = long_item.as_bytes().to_vec();
-            file_name.push(0);
+            // if is ascii
+            let mut file_name=if !long_item.is_ascii() {
+
+              let mut m=vec![];
+               let  a=OsString::from(long_item).encode_wide().collect::<Vec<_>>(); 
+           for i in  a{
+               m.append(&mut i.to_le_bytes().to_vec());
+           }
+           
+               m.append(&mut 0u16.to_le_bytes().to_vec());
+               m
+            }else {
+               let mut  m=long_item.as_bytes().to_vec();
+                m.push(0);
+                m
+            };
+            
+            
             let file_len = file_name.len();
             // extension block
             let mut ex_block = ExtensionBlock::default();
@@ -254,4 +276,17 @@ impl Into<Vec<u8>> for ItemID {
 
         data
     }
+}
+
+
+#[test]
+fn tests() {
+let s=r"D:\文档_~1\anki\ANKI__~1\ANKI_S~1.36\ANKI_S~1.EXE"   ;
+let z=Path::new(s);
+let a=OsString::from("文档_~1").encode_wide().collect::<Vec<_>>();
+for i in a {
+    println!("{:02x}{:02x}",i.to_le_bytes()[0],i.to_le_bytes()[1]);
+}
+let xx=z.iter().collect::<Vec<_>>();
+println!("{:?}",xx);
 }
