@@ -5,11 +5,11 @@ WIndows 7,8,10. Tested on Windows 10.
 Add this to your `Cargo.toml`:
 ```toml
 [dependencies]
-mslnk = "0.1.5"
+mslnk = "0.1.6"
 ```
 examole to create lnk
 ```
-use lnk::ShellLink;
+use mslnk::ShellLink;
 
 let target = r"C:\Users\Admin\Desktop\qq aa\qiuqiu.exe";
 let lnk = r"C:\Users\Admin\Desktop\qq.lnk";

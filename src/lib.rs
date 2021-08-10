@@ -1,22 +1,18 @@
 //! # Shell Link writer for Rust.
 //! Works on Windows,theoretically support Windows 7,8,10.
-//! 
+//!
 //! ## Example
 //! A simple example appears as follows:
 //! ```rust
-//! use lnk::ShellLink;
+//! use mslnk::ShellLink;
 //! // ...
 //! let target = r"C:\Users\Admin\Desktop\qq aa\qiuqiu.exe";
 //! let lnk = r"C:\Users\Admin\Desktop\qq.lnk";
 //! let sl = ShellLink::new(target).unwrap();
 //! sl.create_lnk(lnk).unwrap();
-//! ```
-
-use core::prelude;
-use std::ffi::OsString;
+//! ``
 use std::fs::File;
-use std::io::{prelude::*,  BufWriter};
-use std::os::windows::prelude::OsStrExt;
+use std::io::{prelude::*, BufWriter};
 use std::path::Path;
 
 mod header;
@@ -57,7 +53,7 @@ impl Default for ShellLink {
     fn default() -> Self {
         Self {
             shell_link_header: header::ShellLinkHeader::default(),
-            linktarget_id_list:Some( linktarget::LinkTargetIdList::default()),
+            linktarget_id_list: Some(linktarget::LinkTargetIdList::default()),
             link_info: None,
             name_string: None,
             relative_path: None,
@@ -76,7 +72,13 @@ impl ShellLink {
 
         let meta = fs::metadata(&target)?;
         let canonical = fs::canonicalize(&target)?.into_boxed_path();
-let working_dir_path=target.as_ref().parent().unwrap().to_str().unwrap().to_owned();
+        let working_dir_path = target
+            .as_ref()
+            .parent()
+            .unwrap()
+            .to_str()
+            .unwrap()
+            .to_owned();
         let mut sl = Self::default();
 
         let mut flags = LinkFlags::IS_UNICODE;
@@ -115,7 +117,6 @@ let working_dir_path=target.as_ref().parent().unwrap().to_str().unwrap().to_owne
         let link_flags = *self.header().link_flags();
 
         if link_flags.contains(LinkFlags::HAS_LINK_TARGET_ID_LIST) {
-
             let mut data: Vec<u8> = self.linktarget_id_list.clone().unwrap().into();
             w.write_all(&mut data)?;
         }
@@ -127,7 +128,6 @@ let working_dir_path=target.as_ref().parent().unwrap().to_str().unwrap().to_owne
         }
 
         if link_flags.contains(LinkFlags::HAS_NAME) {
-            
             dbg!("Name is marked as present. Writing.");
             w.write_all(&stringdata::to_data(
                 self.name_string.as_ref().unwrap(),
@@ -136,7 +136,6 @@ let working_dir_path=target.as_ref().parent().unwrap().to_str().unwrap().to_owne
         }
 
         if link_flags.contains(LinkFlags::HAS_RELATIVE_PATH) {
-            
             dbg!("Relative path is marked as present. Writing.");
             w.write_all(&stringdata::to_data(
                 self.relative_path.as_ref().unwrap(),
@@ -145,7 +144,6 @@ let working_dir_path=target.as_ref().parent().unwrap().to_str().unwrap().to_owne
         }
 
         if link_flags.contains(LinkFlags::HAS_WORKING_DIR) {
-           
             dbg!("Working dir is marked as present. Writing.");
             w.write_all(&stringdata::to_data(
                 self.working_dir.as_ref().unwrap(),
@@ -154,7 +152,6 @@ let working_dir_path=target.as_ref().parent().unwrap().to_str().unwrap().to_owne
         }
 
         if link_flags.contains(LinkFlags::HAS_ARGUMENTS) {
-        
             dbg!("Arguments are marked as present. Writing.");
             w.write_all(&stringdata::to_data(
                 self.command_line_arguments.as_ref().unwrap(),
@@ -163,7 +160,6 @@ let working_dir_path=target.as_ref().parent().unwrap().to_str().unwrap().to_owne
         }
 
         if link_flags.contains(LinkFlags::HAS_ICON_LOCATION) {
-           
             dbg!("Icon Location is marked as present. Writing.");
             w.write_all(&stringdata::to_data(
                 self.icon_location.as_ref().unwrap(),
@@ -174,7 +170,7 @@ let working_dir_path=target.as_ref().parent().unwrap().to_str().unwrap().to_owne
         Ok(())
     }
 
-    ///  Get a mutable instance of the shell link's target 
+    ///  Get a mutable instance of the shell link's target
     pub fn linktarget_mut(&mut self) -> Option<&mut LinkTargetIdList> {
         self.linktarget_id_list.as_mut()
     }
@@ -182,7 +178,7 @@ let working_dir_path=target.as_ref().parent().unwrap().to_str().unwrap().to_owne
     pub fn header(&self) -> &ShellLinkHeader {
         &self.shell_link_header
     }
-   
+
     /// Get a mutable instance of the shell link's header
     pub fn header_mut(&mut self) -> &mut ShellLinkHeader {
         &mut self.shell_link_header
@@ -249,13 +245,10 @@ let working_dir_path=target.as_ref().parent().unwrap().to_str().unwrap().to_owne
     }
 }
 
-
 #[test]
-fn test_uni() {
-    let c=",";
-    let s=OsString::from(",").encode_wide().collect::<Vec<_>>();
-  println!("{:02x}{:02x}",s[0].to_le_bytes()[0],s[0].to_le_bytes()[1]);
-    for i in  c.as_bytes(){
-       println!("{:02x}",i);
-   }
+fn test_create_lnk() {
+    let target = r"D:\编程地图书籍、源码\NumPy Essentials.epub";
+    let lnk = r"C:\Users\Admin\Desktop\np.lnk";
+    let sl = ShellLink::new(target).unwrap();
+    sl.create_lnk(lnk).unwrap();
 }

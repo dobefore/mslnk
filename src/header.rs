@@ -179,8 +179,6 @@ impl Into<[u8; 0x4c]> for ShellLinkHeader {
     }
 }
 
-
-
 bitflags! {
     /// The LinkFlags structure defines bits that specify which shell linkstructures are present in
     /// the file format after the ShellLinkHeaderstructure (section 2.1).
@@ -453,5 +451,3 @@ pub enum ShowCommand {
     /// The application is open, but its window is not shown. It is not given the keyboard focus.
     ShowMinNoActive = 0x07,
 }
-
-

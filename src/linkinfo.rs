@@ -46,7 +46,7 @@ impl Default for LinkInfo {
         Self {
             size: 0,
             link_info_flags: LinkInfoFlags::empty(),
-           
+
             local_base_path: None,
             common_network_relative_link: None,
             common_path_suffix: String::new(),
@@ -55,8 +55,6 @@ impl Default for LinkInfo {
         }
     }
 }
-
-
 
 impl Into<Vec<u8>> for LinkInfo {
     fn into(self) -> Vec<u8> {
@@ -87,8 +85,6 @@ bitflags! {
         const COMMON_NETWORK_RELATIVE_LINK_AND_PATH_SUFFIX = 0b0000_0000_0000_0000_0000_0000_0000_0010;
     }
 }
-
-
 
 #[derive(Clone, Debug)]
 pub struct CommonNetworkRelativeLink {
@@ -130,8 +126,6 @@ impl Default for CommonNetworkRelativeLink {
         }
     }
 }
-
-
 
 impl Into<Vec<u8>> for CommonNetworkRelativeLink {
     fn into(self) -> Vec<u8> {

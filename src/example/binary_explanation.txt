@@ -53,7 +53,7 @@
            2C 39 65 A3 Ctime
             2C 39 69 A3 acesstime
             2E 00 win 8,10 Unknown (version or identifier?)
-              00 00 00 00  Unknown (empty values) >=9
+              00 00 00 00  Unknown (empty values) >=8
              
 
               74 00 65 00 73 00 74 00 test
@@ -67,7 +67,7 @@
      2C 39 69 A3 mtime
      20 00 fileattr
      here is 0x14-> 61 2E 74 78 74 00 a.txt+terminalid00 
-       34 00 extension block size
+       34 00 extension block size  52
         09 00 extension version
          04 00 EF BE  extension signature
  2C 39 69 A3 Ctime
