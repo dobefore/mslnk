@@ -1,6 +1,6 @@
 # mslnk
 Rust implementation to create Windows shortcut (ms shell .lnk),theoretically support
-WIndows 7,8,10. Tested on Windows 10.
+WIndows 7/8/10/11. Tested on Windows 10,11.
 # Usage
 Add this to your `Cargo.toml`:
 ```toml
