@@ -11,6 +11,7 @@
 //! let sl = ShellLink::new(target).unwrap();
 //! sl.create_lnk(lnk).unwrap();
 //! ``
+use log::debug;
 use std::fs::File;
 use std::io::{prelude::*, BufWriter};
 use std::path::Path;
@@ -110,7 +111,7 @@ impl ShellLink {
     pub fn create_lnk<P: AsRef<std::path::Path>>(&self, path: P) -> std::io::Result<()> {
         let mut w = BufWriter::new(File::create(path)?);
 
-        dbg!("Writing header...");
+        debug!("Writing header...");
         let header_data: [u8; 0x4c] = self.shell_link_header.into();
         w.write_all(&header_data)?;
 
@@ -122,13 +123,13 @@ impl ShellLink {
         }
 
         if link_flags.contains(LinkFlags::HAS_LINK_INFO) {
-            dbg!("LinkInfo is marked as present. Writing.");
+            debug!("LinkInfo is marked as present. Writing.");
             let mut data: Vec<u8> = self.link_info.clone().unwrap().into();
             w.write_all(&mut data)?;
         }
 
         if link_flags.contains(LinkFlags::HAS_NAME) {
-            dbg!("Name is marked as present. Writing.");
+            debug!("Name is marked as present. Writing.");
             w.write_all(&stringdata::to_data(
                 self.name_string.as_ref().unwrap(),
                 link_flags,
@@ -136,7 +137,7 @@ impl ShellLink {
         }
 
         if link_flags.contains(LinkFlags::HAS_RELATIVE_PATH) {
-            dbg!("Relative path is marked as present. Writing.");
+            debug!("Relative path is marked as present. Writing.");
             w.write_all(&stringdata::to_data(
                 self.relative_path.as_ref().unwrap(),
                 link_flags,
@@ -144,7 +145,7 @@ impl ShellLink {
         }
 
         if link_flags.contains(LinkFlags::HAS_WORKING_DIR) {
-            dbg!("Working dir is marked as present. Writing.");
+            debug!("Working dir is marked as present. Writing.");
             w.write_all(&stringdata::to_data(
                 self.working_dir.as_ref().unwrap(),
                 link_flags,
@@ -152,7 +153,7 @@ impl ShellLink {
         }
 
         if link_flags.contains(LinkFlags::HAS_ARGUMENTS) {
-            dbg!("Arguments are marked as present. Writing.");
+            debug!("Arguments are marked as present. Writing.");
             w.write_all(&stringdata::to_data(
                 self.command_line_arguments.as_ref().unwrap(),
                 link_flags,
@@ -160,7 +161,7 @@ impl ShellLink {
         }
 
         if link_flags.contains(LinkFlags::HAS_ICON_LOCATION) {
-            dbg!("Icon Location is marked as present. Writing.");
+            debug!("Icon Location is marked as present. Writing.");
             w.write_all(&stringdata::to_data(
                 self.icon_location.as_ref().unwrap(),
                 link_flags,

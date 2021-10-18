@@ -1,5 +1,6 @@
 use crate::LinkFlags;
 use byteorder::{ByteOrder, LE};
+use log::debug;
 
 pub fn parse_string(data: &[u8], flags: LinkFlags) -> (usize, String) {
     let result = if !flags.contains(LinkFlags::IS_UNICODE) {
@@ -23,7 +24,7 @@ pub fn parse_string(data: &[u8], flags: LinkFlags) -> (usize, String) {
         LE::read_u16_into(char_data, &mut u16_chars);
         (total_bytes, String::from_utf16_lossy(&u16_chars))
     };
-    dbg!("Parsed string: {:?}", &result);
+    debug!("Parsed string: {:?}", &result);
     result
 }
 
