@@ -5,7 +5,7 @@ WIndows 7/8/10/11. Tested on Windows 10,11.
 Add this to your `Cargo.toml`:
 ```toml
 [dependencies]
-mslnk = "0.1.6"
+mslnk = "0.1.7"
 ```
 examole to create lnk
 ```
