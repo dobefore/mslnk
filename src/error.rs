@@ -1,25 +1,24 @@
+use std::error::Error;
+use std::fmt;
 use std::io;
 use std::num;
-use std::fmt;
-use std::error::Error;
 #[derive(Debug)]
 pub struct MSLinkError {
     kind: String,
     message: String,
 }
-/// fix :doesn't satisfy `MSLinkError: std::error::Error` 
+/// fix :doesn't satisfy `MSLinkError: std::error::Error`
 impl Error for MSLinkError {}
 impl fmt::Display for MSLinkError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-
-        write!(f, "{}:{}",self.kind,self.message)
+        write!(f, "{}:{}", self.kind, self.message)
     }
 }
 
 // Implement std::convert::From for AppError; from io::Error
 impl From<io::Error> for MSLinkError {
     fn from(error: io::Error) -> Self {
-        MSLinkError  {
+        MSLinkError {
             kind: String::from("io"),
             message: error.to_string(),
         }
@@ -35,4 +34,3 @@ impl From<num::ParseIntError> for MSLinkError {
         }
     }
 }
-

@@ -71,7 +71,7 @@ impl Default for ShellLink {
 
 impl ShellLink {
     /// Create a new ShellLink pointing to a location, with otherwise default settings.
-    pub fn new<P: AsRef<Path>>(target: P) -> Result<Self,MSLinkError> {
+    pub fn new<P: AsRef<Path>>(target: P) -> Result<Self, MSLinkError> {
         use std::fs;
 
         let meta = fs::metadata(&target)?;
@@ -111,7 +111,7 @@ impl ShellLink {
     /// Save a shell link.
     ///
     /// Note that this doesn't save any [`ExtraData`](struct.ExtraData.html) entries.
-    pub fn create_lnk<P: AsRef<std::path::Path>>(&self, path: P)->Result<(), MSLinkError> {
+    pub fn create_lnk<P: AsRef<std::path::Path>>(&self, path: P) -> Result<(), MSLinkError> {
         let mut w = BufWriter::new(File::create(path)?);
 
         debug!("Writing header...");
