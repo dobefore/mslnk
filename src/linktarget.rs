@@ -103,7 +103,9 @@ impl LinkTargetIdList {
             fileitem.file_attrbute_flags = fattr;
             // path parts : test
             fileitem.entry_name = long_item.to_owned();
-            fileitem.extension_block.set_size(fileitem.return_entry_name_wide_vec().len() as u16) ;
+            fileitem
+                .extension_block
+                .set_size(fileitem.return_entry_name_wide_vec().len() as u16);
             fileitem.set_size();
             let item_vec: Vec<u8> = fileitem.into();
             let itemid = ItemID::from(item_vec.as_slice());
@@ -241,8 +243,8 @@ struct ExtensionBlock {
     first_offset: u16,
 }
 impl ExtensionBlock {
-    fn set_size(&mut self,wide_vec_len:u16) {
-        self.size=size_of::<ExtensionBlock>() as u16+wide_vec_len;
+    fn set_size(&mut self, wide_vec_len: u16) {
+        self.size = size_of::<ExtensionBlock>() as u16 + wide_vec_len;
     }
     fn return_vec_except_1stoffset(&self) -> Vec<u8> {
         let mut data = vec![0u8; 22];
